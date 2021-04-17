@@ -8,23 +8,20 @@ export function apiCall(form): Promise<typeof response> {
 	const response = {
 		fields: {
 			email: {
-				display: true,
 				disabled: false,
 				error: !validEmail && 'El email introducido debe ser válido',				
 			},
 			name: {
-				display: true,
 				disabled: false,
 				error: !validName && 'El campo es requerido',
 			},
 			surname: {
-				display: true,
 				disabled: false,
 				error: null,
 			},
 			surnameCopy: {
 				newValue: form.surname,
-				display: form.surname,
+				hidden: !form.surname,
 				disabled: true,
 				error: null,	
 			}
