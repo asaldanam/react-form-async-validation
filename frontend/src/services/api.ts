@@ -1,6 +1,5 @@
 import regex from "../utils/regex";
 
-
 export function apiCall(form): Promise<typeof response> {
 	const validName = form.name?.length > 0;
 	const validEmail = regex.email.test(String(form.email).toLowerCase());
@@ -19,12 +18,6 @@ export function apiCall(form): Promise<typeof response> {
 				disabled: false,
 				error: null,
 			},
-			surnameCopy: {
-				newValue: form.surname,
-				hidden: !form.surname,
-				disabled: true,
-				error: null,	
-			}
 		}
 	};
 
