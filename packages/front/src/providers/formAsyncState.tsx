@@ -55,7 +55,7 @@ export const FormAsyncStateProvider: React.FC = ({ children }) => {
 	)
 }
 
-export function useFormAsyncContext(name: string) {
+export function useFormAsyncContext(name?: string) {
 	const { getValues, setValue } = useFormContext();
 	const { formAsyncState, dispatch } = useContext(FormAsyncStateContext);
 

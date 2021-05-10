@@ -9,7 +9,7 @@ const Input = ({ name }: { name: string }) => {
   const { control, formState: { touchedFields } } = useFormContext();
   const { triggerCheck, asyncState } = useFormAsyncContext(name);
   
-  // const isTouched = touchedFields[name];
+  const isTouched = touchedFields[name];
   const { error, disabled, hidden } = asyncState;
   
   return useMemo(() => {
@@ -34,7 +34,7 @@ const Input = ({ name }: { name: string }) => {
             />
           )}
         />
-        <S.ErrorHint>{error}</S.ErrorHint>
+        <S.ErrorHint>{isTouched && error}</S.ErrorHint>
       </div>
     )
     return null;
