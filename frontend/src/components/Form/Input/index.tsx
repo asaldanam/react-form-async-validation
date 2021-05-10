@@ -6,12 +6,15 @@ import * as S from '../styles';
 const { Text } = Typography;
 
 const Input = ({ name }: { name: string }) => {
-  const { control, formState: {touchedFields} } = useFormContext();
+  const { control, formState: { touchedFields } } = useFormContext();
   const { triggerCheck, asyncState } = useFormAsyncContext(name);
-  const isTouched = touchedFields[name];
+  
+  // const isTouched = touchedFields[name];
   const { error, disabled, hidden } = asyncState;
+  
   return useMemo(() => {
     console.info(`%crender ${name}`, 'background: #ffeb3b; color: #222', asyncState);
+
     if (!hidden) return (
       <div>
         <label><Text>{name}</Text></label>
@@ -31,12 +34,12 @@ const Input = ({ name }: { name: string }) => {
             />
           )}
         />
-        <S.ErrorHint>{isTouched && error}</S.ErrorHint>
+        <S.ErrorHint>{error}</S.ErrorHint>
       </div>
     )
     return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(asyncState), isTouched])
+  }, [JSON.stringify(asyncState)])
 }
 
 export default Input;

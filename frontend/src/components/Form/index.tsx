@@ -14,18 +14,21 @@ function Form() {
   return (
     <S.FormContainer>
       <FormAsyncStateProvider>
+
         <LoadingBar />
+
         <S.Form onSubmit={onSubmit} autoComplete="off">
           <FormProvider {...form}>
             <Input name="email" />
             <Input name="name" />
             <Input name="surname" />
-            <Input name="surnameCopy" />
           </FormProvider>
+
           <S.FormFooter>
             <Button type="primary" size="large">Submit</Button>
           </S.FormFooter>
         </S.Form>
+
       </FormAsyncStateProvider>
     </S.FormContainer>
   );

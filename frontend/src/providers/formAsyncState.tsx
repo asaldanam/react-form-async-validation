@@ -1,6 +1,6 @@
 import React, { createContext, Dispatch, useContext, useEffect, useMemo, useReducer } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { apiCall } from '../services/api';
+import { validateTraveler } from '../services/api';
 
 type InitialStateType = {
 	loading: boolean;
@@ -63,7 +63,6 @@ export function useFormAsyncContext(name: string) {
 	const fields = formAsyncState?.fields || {};
 	const asyncState = fields[name || ''] || {};
 
-
 	// Actualiza el valor del campo en caso de que la API lo provea
 	const { newValue } = asyncState;
 	useEffect(() => {
@@ -75,11 +74,13 @@ export function useFormAsyncContext(name: string) {
 	/** Realiza un check del estado contra la API */
 	const triggerCheck = () => {
 		dispatch({ type: 'setLoading', payload: true });
-		const values = getValues();
-		apiCall(values).then(payload => {
+
+		const values = getValues();	
+		validateTraveler({ values }).then(res => {
+			const payload = res.data;
 			dispatch({ type: 'fullFilled', payload });
 		})
 	};
 
-	return { asyncState, triggerCheck };
+	return { asyncState, formAsyncState, triggerCheck };
 }
