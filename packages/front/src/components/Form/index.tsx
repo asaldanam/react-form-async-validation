@@ -31,11 +31,6 @@ function Form() {
 
   const onError = (error) => console.error(error);
 
-  useEffect(() => {
-    triggerCheck();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <S.FormContainer>
       <FormAsyncStateProvider>
@@ -44,6 +39,7 @@ function Form() {
 
         <S.Form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
           <FormProvider {...form}>
+            <FormInitializer />
             <Input name="email" />
             <Input name="name" />
             <Input name="surname" />
