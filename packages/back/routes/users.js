@@ -52,13 +52,13 @@ class User {
         surname: {
           hidden: false,
           disabled: !this.user.name,
-          value: this.user.name ? '' : null,
+          value: !this.user.name ? this.user.name : null,
           error: 
             this.user.name && required(this.user.surname),
         },
         lastname: {
-          hidden: !this.user.surname,
-          value: !this.user.surname ? '' : null,
+          hidden: !this.user.surname || !this.user.name,
+          value: (!this.user.surname || !this.user.name) ? '' : null,
           disabled: false,
           error: null,
         }

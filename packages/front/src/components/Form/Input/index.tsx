@@ -28,13 +28,11 @@ const Input = ({ name }: { name: string }) => {
     const hasValue = value !== null && value !== undefined;
     const valueChanged = value !== currentFormValue;
     if (hasValue && valueChanged) {
-      console.log({name});
+      console.log('UPDATE:', name, value);
       setValue(name, value);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
-
-  console.log({asyncState});
   
   // Memoiza el componente para que sólo haga render si ha cambiado el estado asíncrono
   return useMemo(() => {
