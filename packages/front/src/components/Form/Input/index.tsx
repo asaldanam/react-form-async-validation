@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useFormAsyncContext } from '../../../providers/formAsyncState';
 import { Input as AntdInput, Typography } from 'antd';
@@ -6,16 +6,41 @@ import * as S from '../styles';
 const { Text } = Typography;
 
 const Input = ({ name }: { name: string }) => {
-  const { control, formState: { touchedFields } } = useFormContext();
-  const { triggerCheck, asyncState } = useFormAsyncContext(name);
-  
-  const isTouched = touchedFields[name];
-  const { error, disabled, hidden } = asyncState;
-  
-  return useMemo(() => {
-    console.info(`%crender ${name}`, 'background: #ffeb3b; color: #222', asyncState);
+  // Métodos y estado de React hooks form
+  const form = useFormContext();
+  const { 
+    control,
+    formState: { touchedFields },
+    setValue,
+    getValues
+  } = form;
 
-    if (!hidden) return (
+  // Comprueba si el campo está tocado
+  const isTouched = touchedFields[name];
+  const currentFormValue = (getValues() || {})[name];
+
+  // Estado asíncrono de la API
+  const { triggerCheck, asyncState } = useFormAsyncContext(form ,name);
+  const { error, disabled, hidden, value } = asyncState;
+
+  // Actualiza en el formulario el value si este viene impuesto desde la API
+  useEffect(() => {
+    const hasValue = value !== null && value !== undefined;
+    const valueChanged = value !== currentFormValue;
+    if (hasValue && valueChanged) {
+      console.log({name});
+      setValue(name, value);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
+
+  console.log({asyncState});
+  
+  // Memoiza el componente para que sólo haga render si ha cambiado el estado asíncrono
+  return useMemo(() => {
+    console.info(`%crender ${name}`, 'background: #ffeb3b; color: #222', {asyncState});
+    if (hidden) return null;
+    return (
       <div>
         <label><Text>{name}</Text></label>
         <Controller
@@ -37,7 +62,6 @@ const Input = ({ name }: { name: string }) => {
         <S.ErrorHint>{isTouched && error}</S.ErrorHint>
       </div>
     )
-    return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(asyncState)])
 }

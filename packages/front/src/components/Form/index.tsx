@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import Input from './Input';
 import { FormAsyncStateProvider, useFormAsyncContext } from '../../providers/formAsyncState';
 import 'antd/dist/antd.css';
@@ -8,7 +8,8 @@ import * as S from './styles';
 import LoadingBar from './LoadingBar';
 
 const FormInitializer = () => {
-  const { triggerCheck } = useFormAsyncContext();
+  const form = useFormContext();
+  const { triggerCheck } = useFormAsyncContext(form);
 
   useEffect(() => {
     triggerCheck();
@@ -20,7 +21,20 @@ const FormInitializer = () => {
 
 function Form() {
   const form = useForm();
-  const onSubmit = form.handleSubmit((data) => console.log('SUBMIT', data));
+  const { handleSubmit } = form;
+  const { triggerCheck } = useFormAsyncContext(form);
+
+  const onSubmit = (data) =>{
+    console.log('SUBMIT', data);
+    triggerCheck();
+  };
+
+  const onError = (error) => console.error(error);
+
+  useEffect(() => {
+    triggerCheck();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <S.FormContainer>
@@ -28,9 +42,8 @@ function Form() {
 
         <LoadingBar />
 
-        <S.Form onSubmit={onSubmit} autoComplete="off">
+        <S.Form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
           <FormProvider {...form}>
-            <FormInitializer />
             <Input name="email" />
             <Input name="name" />
             <Input name="surname" />
@@ -38,7 +51,7 @@ function Form() {
           </FormProvider>
 
           <S.FormFooter>
-            <Button type="primary" size="large">Submit</Button>
+            <Button type="primary" htmlType="submit" size="large">Submit</Button>
           </S.FormFooter>
         </S.Form>
 

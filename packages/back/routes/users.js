@@ -37,6 +37,7 @@ class User {
         email: {
           hidden: false,
           disabled: false,
+          value: null,
           error: 
             pattern(this.user.email, regex.email, 'El email no es válido') || 
             required(this.user.email)				
@@ -44,17 +45,22 @@ class User {
         name: {
           hidden: false,
           disabled: false,
+          value: null,
           error: 
             required(this.user.name),
         },
         surname: {
           hidden: false,
           disabled: !this.user.name,
+          value: this.user.name ? '' : null,
           error: 
             this.user.name && required(this.user.surname),
         },
         lastname: {
           hidden: !this.user.surname,
+          value: !this.user.surname ? '' : null,
+          disabled: false,
+          error: null,
         }
       }
     };

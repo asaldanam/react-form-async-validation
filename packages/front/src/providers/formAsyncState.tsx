@@ -1,6 +1,6 @@
 import React, { createContext, Dispatch, useContext, useEffect, useMemo, useReducer } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { validateTraveler } from '../services/api';
+import { UseFormReturn } from 'react-hook-form';
+import * as Api from '../services/api';
 
 type InitialStateType = {
 	loading: boolean;
@@ -55,8 +55,8 @@ export const FormAsyncStateProvider: React.FC = ({ children }) => {
 	)
 }
 
-export function useFormAsyncContext(name?: string) {
-	const { getValues, setValue } = useFormContext();
+export function useFormAsyncContext(form: UseFormReturn, name?: string) {
+	const { getValues, setValue } = form;
 	const { formAsyncState, dispatch } = useContext(FormAsyncStateContext);
 
 	// Obtiene el estado del campo 
@@ -76,7 +76,7 @@ export function useFormAsyncContext(name?: string) {
 		dispatch({ type: 'setLoading', payload: true });
 
 		const values = getValues();	
-		validateTraveler({ values }).then(res => {
+		Api.validate({ values }).then(res => {
 			const payload = res.data;
 			dispatch({ type: 'fullFilled', payload });
 		})
