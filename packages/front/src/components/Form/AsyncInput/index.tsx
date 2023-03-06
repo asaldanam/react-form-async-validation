@@ -5,7 +5,7 @@ import { Input as AntdInput, Typography } from 'antd';
 import * as S from '../styles';
 const { Text } = Typography;
 
-const Input = ({ name }: { name: string }) => {
+const AsyncInput = ({ name }: { name: string }) => {
   // Métodos y estado de React hooks form
   const form = useFormContext();
   const { 
@@ -27,6 +27,7 @@ const Input = ({ name }: { name: string }) => {
   useEffect(() => {
     const hasValue = value !== null && value !== undefined;
     const valueChanged = value !== currentFormValue;
+    
     if (hasValue && valueChanged) {
       console.log('UPDATE:', name, value);
       setValue(name, value);
@@ -37,7 +38,9 @@ const Input = ({ name }: { name: string }) => {
   // Memoiza el componente para que sólo haga render si ha cambiado el estado asíncrono
   return useMemo(() => {
     console.info(`%crender ${name}`, 'background: #ffeb3b; color: #222', {asyncState});
+    
     if (hidden) return null;
+    
     return (
       <div>
         <label><Text>{name}</Text></label>
@@ -64,4 +67,4 @@ const Input = ({ name }: { name: string }) => {
   }, [JSON.stringify(asyncState)])
 }
 
-export default Input;
+export default AsyncInput;

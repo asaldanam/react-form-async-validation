@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useFormAsyncContext } from '../../providers/formAsyncState';
-import Input from './Input';
+import AsyncInput from './AsyncInput';
 import LoadingBar from './LoadingBar';
 import * as S from './styles';
 
@@ -34,10 +34,10 @@ function Form() {
       <LoadingBar />
       <S.Form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
         <FormProvider {...form}>
-          <Input name="email" />
-          <Input name="name" />
-          <Input name="surname" />
-          <Input name="lastname" />
+          <AsyncInput name="email" />
+          <AsyncInput name="name" />
+          <AsyncInput name="surname" />
+          <AsyncInput name="lastname" />
         </FormProvider>
         <S.FormFooter>
           <Button type="primary" htmlType="submit" size="large">Submit</Button>
