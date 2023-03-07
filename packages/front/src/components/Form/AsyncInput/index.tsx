@@ -8,12 +8,7 @@ const { Text } = Typography;
 const AsyncInput = ({ name }: { name: string }) => {
   // Métodos y estado de React hooks form
   const form = useFormContext();
-  const { 
-    control,
-    formState: { touchedFields },
-    setValue,
-    getValues
-  } = form;
+  const { control, formState: { touchedFields }, setValue, getValues } = form;
 
   // Comprueba si el campo está tocado
   const isTouched = touchedFields[name];
